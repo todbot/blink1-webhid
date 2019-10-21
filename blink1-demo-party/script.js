@@ -9,8 +9,9 @@ let timer;
 
 async function handleClickStop() {
     clearTimeout(timer);
+    timer = null;
     const device = await openDevice();
-    await fadeToColor(device, [0,0,0]);
+    await fadeToColor(device, [0,0,0], 100, 0);
 }
 
 async function handleClick() {
@@ -20,9 +21,11 @@ async function handleClick() {
 
 async function startParty() {
     let acolor = randColor();
+    const ledn = 1 + Math.floor(Math.random()*2);
+    const fadeMillis = 100;
     const device = await openDevice();
-    await fadeToColor(device, acolor );
-    timer = setTimeout(startParty, 200);
+    await fadeToColor(device, acolor, fadeMillis, ledn );
+    timer = setTimeout(startParty, 200, ledn);
 }
 
 async function openDevice() {
@@ -42,18 +45,16 @@ async function openDevice() {
     return device;
 }
 
-async function fadeToColor(device, [r, g, b] ) {
-
-    const ledn = 1 + Math.floor(Math.random()*2);
-    const fadeMillis = 100;
-    
+async function fadeToColor(device, [r, g, b], fadeMillis, ledn ) {
     const reportId = 1;
+
     const dmsh = (fadeMillis/10) >> 8;
     const dmsl = (fadeMillis/10) % 0xff;
     console.log(`fadeToColor: ${r},${g},${b} ledn:${ledn} dmsh:${dmsh} dmsl:${dmsl}`);
+
     // NOTE: do not put reportId in data array (at least on MacOS),
     //  and array must be exactly REPORT_COUNT big (8 bytes in this case)
-    const data = Uint8Array.from([0x63, r, g, b, dmsh,dmsl, ledn, 0x00]);
+    const data = Uint8Array.from([0x63, r, g, b, dmsh, dmsl, ledn, 0x00]);
     try {
         await device.sendFeatureReport(reportId, data);
     } catch (error) {
