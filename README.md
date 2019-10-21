@@ -4,15 +4,21 @@ Example of using Chrome's WebHID to talk to [blink(1) USB RGB LED notification l
 
 For more details on WebHID, see [Awesome WebHID list](https://github.com/robatwilliams/awesome-webhid)
 
+Visit this page's published URL to run these examples:
+[https://todbot.github.io/blink1-webhid](https://todbot.github.io/blink1-webhid)
+
 
 List of examples:
 * [blink1-demo-simplest](./blink1-demo-simplest/) -- bare-bones example of lighting a blink(1)
 * [blink1-demo-party](./blink1-demo-party/) -- slightly more complex example
 
 
-To run these examples, you will need:
+Pre-requisites for these examples, you will need:
+* blink(1) USB LED
 * Chrome 78+
 * Visit `chrome://flags/#enable-experimental-web-platform-features`
-    and "Enable the Experiment Web Platform Features"
+and "Enable the Experiment Web Platform Features"
+* Relaunch Chrome
+* Visit this page: [https://todbot.github.io/blink1-webhid](https://todbot.github.io/blink1-webhid)
 
 
