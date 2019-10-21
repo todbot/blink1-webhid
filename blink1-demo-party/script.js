@@ -46,11 +46,11 @@ async function fadeToColor(device, [r, g, b] ) {
 
     const ledn = 1 + Math.floor(Math.random()*2);
     const fadeMillis = 100;
-    console.log(`fadeToColor: ${r},${g},${b} ledn:${ledn} dmsh:${dmsh} dmsl:${dmsl}`);
     
     const reportId = 1;
     const dmsh = (fadeMillis/10) >> 8;
     const dmsl = (fadeMillis/10) % 0xff;
+    console.log(`fadeToColor: ${r},${g},${b} ledn:${ledn} dmsh:${dmsh} dmsl:${dmsl}`);
     // NOTE: do not put reportId in data array (at least on MacOS),
     //  and array must be exactly REPORT_COUNT big (8 bytes in this case)
     const data = Uint8Array.from([0x63, r, g, b, dmsh,dmsl, ledn, 0x00]);
