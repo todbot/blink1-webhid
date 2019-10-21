@@ -12,6 +12,7 @@ List of examples:
 
 To run these examples, you will need:
 * Chrome 78+
-* Change [chrome://flags](chrome://flags/#enable-experimental-web-platform-features) and "Enable the Experiment Web Platform Features"
+* Visit `chrome://flags/#enable-experimental-web-platform-features`
+    and "Enable the Experiment Web Platform Features"
 
 
