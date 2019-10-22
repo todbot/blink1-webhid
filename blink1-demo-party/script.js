@@ -1,6 +1,5 @@
 
-const vendorId = 0x27b8; // blink1 vid
-const productId = 0x01ed;  // blink1 pid
+// Part of https://todbot.github.io/blink1-webhid/
 
 document.getElementById('start-button').addEventListener('click', handleClick);
 document.getElementById('stop-button').addEventListener('click', handleClickStop);
@@ -29,6 +28,9 @@ async function startParty() {
 }
 
 async function openDevice() {
+    const vendorId = 0x27b8; // blink1 vid
+    const productId = 0x01ed;  // blink1 pid
+    
     const devices = await navigator.hid.getDevices();
 
     let device = devices.find(d => d.vendorId === vendorId && d.productId === productId);

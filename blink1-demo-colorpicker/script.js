@@ -1,7 +1,10 @@
 
+// Part of https://todbot.github.io/blink1-webhid/
+
 let canvas = document.getElementById('canvas_picker').getContext('2d');
 let rgbinput = document.getElementById('rgb');
 let hexinput = document.getElementById('hex');
+let status = document.getElementById('status');
 let canvas_picker = document.getElementById('canvas_picker');
 canvas_picker.addEventListener('click', handleClick);
 canvas_picker.addEventListener('mousemove', handleClick);
@@ -9,7 +12,6 @@ document.getElementById('connect-button').addEventListener('click', handleConnec
 
 // create an image object and set its source
 let img = new Image();
-//img.src = 'gradient-500x353.png'; 
 img.src = 'HTML-Color-Code-300x255.gif';
 
 var isConnected = false;
@@ -24,8 +26,9 @@ async function handleConnect() {
     if( !device ) {
         console.log("*** no device!");
     }
-    await fadeToColor(device, [0,0,0], 100, 0 );
+    await fadeToColor(device, [100,100,100], 100, 0 );
     isConnected = true;
+    status.innerHTML = "connected";
 }
 
 // http://www.javascripter.net/faq/rgbtohex.htm
@@ -38,7 +41,6 @@ function toHex(n) {
 }
 
 async function handleClick(event) {
-    //console.log("click!",event);
 	// get click coordinates in image space
     const x = event.offsetX;
     const y = event.offsetY;
@@ -59,7 +61,6 @@ async function handleClick(event) {
         await fadeToColor(device, [r,g,b], 100, 0 );
     }    
 }
-
 
 async function openDevice() {
     const vendorId = 0x27b8; // blink1 vid

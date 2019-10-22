@@ -16,10 +16,10 @@ List of examples:
 
 Pre-requisites for these examples, you will need:
 * blink(1) USB LED
-* Chrome 78+
+* Chrome 78+ (currently <a href="https://www.google.com/chrome/beta">in beta</a>)
 * Visit `chrome://flags/#enable-experimental-web-platform-features`
 and "Enable the Experiment Web Platform Features"
-* Relaunch Chrome
+* Relaunch Chrome 
 * Visit this page: [https://todbot.github.io/blink1-webhid](https://todbot.github.io/blink1-webhid)
 
 
