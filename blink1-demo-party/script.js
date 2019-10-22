@@ -2,8 +2,8 @@
 const vendorId = 0x27b8; // blink1 vid
 const productId = 0x01ed;  // blink1 pid
 
-document.querySelector('#start-button').addEventListener('click', handleClick);
-document.querySelector('#stop-button').addEventListener('click', handleClickStop);
+document.getElementById('start-button').addEventListener('click', handleClick);
+document.getElementById('stop-button').addEventListener('click', handleClickStop);
 
 let timer;
 

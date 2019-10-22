@@ -2,7 +2,7 @@
 const vendorId = 0x27b8; // blink1 vid
 const productId = 0x01ed;  // blink1 pid
 
-document.querySelector('#start-button').addEventListener('click', handleClick);
+document.getElementById('start-button').addEventListener('click', handleClick);
 
 async function handleClick() {
     let acolor = [ 255, 0, 255 ];  // purple
