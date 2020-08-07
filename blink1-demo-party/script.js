@@ -30,20 +30,25 @@ async function startParty() {
 async function openDevice() {
     const vendorId = 0x27b8; // blink1 vid
     const productId = 0x01ed;  // blink1 pid
-    
-    const devices = await navigator.hid.getDevices();
 
-    let device = devices.find(d => d.vendorId === vendorId && d.productId === productId);
+    const device_list = await navigator.hid.getDevices();
+
+    let device = device_list.find(d => d.vendorId === vendorId && d.productId === productId);
 
     if (!device) {
-        device = await navigator.hid.requestDevice({
+        // this returns an array now
+        let devices = await navigator.hid.requestDevice({
             filters: [{ vendorId, productId }],
         });
+        console.log("devices:",devices);
+        device = devices[0];
+        if( !device ) return null;
     }
 
     if (!device.opened) {
         await device.open();
     }
+    console.log("device opened:",device);
     return device;
 }
 
