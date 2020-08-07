@@ -6,7 +6,7 @@ For more details on WebHID, see [Awesome WebHID list](https://github.com/robatwi
 
 Visit this page's published URL to run these examples:
 [https://todbot.github.io/blink1-webhid](https://todbot.github.io/blink1-webhid)
-
+To see the source visit: [https://github.com/todbot/blink1-webhid](https://github.com/todbot/blink1-webhid)
 
 List of examples:
 * [blink1-demo-simplest](./blink1-demo-simplest/) -- bare-bones example of lighting a blink(1)
