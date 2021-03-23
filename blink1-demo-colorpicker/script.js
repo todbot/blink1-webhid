@@ -1,6 +1,12 @@
 
 // Part of https://todbot.github.io/blink1-webhid/
 
+import { blink1_openDevice,
+         blink1_fadeToColor,
+         blink1_getVersion,
+         blink1_getChipId,
+       } from './blink1-webhid.js'
+
 let canvas = document.getElementById('canvas_picker').getContext('2d');
 let rgbinput = document.getElementById('rgb');
 let hexinput = document.getElementById('hex');
@@ -16,19 +22,24 @@ img.src = 'HTML-Color-Code-300x255.gif';
 
 var isConnected = false;
 
+let blink1Version = '';
+let blink1ChipId = '';
+
 // copy the image to the canvas
 img.addEventListener('load', function() {
 	  canvas.drawImage(img,0,0);
 });
 
 async function handleConnect() {
-    const device = await openDevice();
+    const device = await blink1_openDevice();
     if( !device ) {
         console.log("*** no device!");
     }
-    await fadeToColor(device, [100,100,100], 100, 0 );
+    let blink1Version = await blink1_getVersion(device);
+    let blink1ChipId = await blink1_getChipId(device);
+    await blink1_fadeToColor(device, [100,100,100], 100, 0 );
     isConnected = true;
-    status.innerHTML = "connected";
+    status.innerHTML = "connected.  firmware version: "+ blink1Version + " chipId:"+blink1ChipId;
 }
 
 // http://www.javascripter.net/faq/rgbtohex.htm
@@ -57,50 +68,9 @@ async function handleClick(event) {
     console.log("hex:",hexstr);
 
     if( isConnected ) {
-        const device = await openDevice();
-        await fadeToColor(device, [r,g,b], 100, 0 );
+        const device = await blink1_openDevice();
+        await blink1_fadeToColor(device, [r,g,b], 100, 0 );
     }    
-}
-
-async function openDevice() {
-    const vendorId = 0x27b8; // blink1 vid
-    const productId = 0x01ed;  // blink1 pid
-
-    const device_list = await navigator.hid.getDevices();
-
-    let device = device_list.find(d => d.vendorId === vendorId && d.productId === productId);
-
-    if (!device) {
-        // this returns an array now
-        let devices = await navigator.hid.requestDevice({
-            filters: [{ vendorId, productId }],
-        });
-        console.log("devices:",devices);
-        device = devices[0];
-        if( !device ) return null;
-    }
-
-    if (!device.opened) {
-        await device.open();
-    }
-    console.log("device opened:",device);
-    return device;
-}
-
-async function fadeToColor(device, [r, g, b], fadeMillis, ledn ) {
-    const reportId = 1;
-
-    const dmsh = (fadeMillis/10) >> 8;
-    const dmsl = (fadeMillis/10) % 0xff;
-
-    // NOTE: do not put reportId in data array (at least on MacOS),
-    //  and array must be exactly REPORT_COUNT big (8 bytes in this case)
-    const data = Uint8Array.from([0x63, r, g, b, dmsh, dmsl, ledn, 0x00]);
-    try {
-        await device.sendFeatureReport(reportId, data);
-    } catch (error) {
-        console.error('fadeToColor: failed:', error);
-    }
 }
 
 

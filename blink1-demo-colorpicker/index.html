@@ -2,8 +2,8 @@
 <html>
   <head>
     <title>blink(1) WebHID demo colorpicker</title>
-
     <script type="module" src="script.js"></script>
+    <script type="module" src="blink1-webhid.js"></script>
   </head>
   <body>
     <h1>blink(1) WebHID demo colorpicker</h1>
@@ -16,15 +16,17 @@
     <p>For more demos and see quickly how to set this up,
        see <a href="https://todbot.github.io/blink1-webhid/">blink1-webhid</a>
     </p>
-    
+
+    <p>
       <div><button id="connect-button"> Connect to blink(1) </button>
         &nbsp; Status: <span id="status"> not connected</span>
       </div>
-
+    </p>
+    <p>
       <div><canvas width="300" height="255" id="canvas_picker"></canvas></div
       <div>HEX: <input type="text" id="hex"></input></div>
       <div>RGB: <input type="text" id="rgb"></input></div>
-
+    </p>
 
   </body>
 </html>
