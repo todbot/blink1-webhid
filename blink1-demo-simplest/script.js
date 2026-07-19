@@ -23,7 +23,8 @@ async function openDevice() {
     const productId = 0x01ed;  // blink1 pid
 
     const device_list = await navigator.hid.getDevices();
-
+    console.log(device_list)
+    
     let device = device_list.find(d => d.vendorId === vendorId && d.productId === productId);
 
     if (!device) {
