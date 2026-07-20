@@ -36,8 +36,20 @@ async function handleConnect() {
         console.log("*** no device!");
         return;
     }
-    let blink1Version = await blink1_getVersion(device);
-    let blink1ChipId = await blink1_getChipId(device);
+    let blink1Version;
+    let blink1ChipId;
+    try {
+        blink1Version = await blink1_getVersion(device);
+    }
+    catch {
+        blink1Version = "unknown";
+    }
+    try {
+        blink1ChipId = await blink1_getChipId(device);
+    }
+    catch {
+        blink1ChipId = "unknown";
+    }
     await blink1_fadeToColor(device, [100,100,100], 100, 0 );
     isConnected = true;
     status.innerHTML = "connected.  firmware version: "+ blink1Version + " chipId:"+blink1ChipId;
