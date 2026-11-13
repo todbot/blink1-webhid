@@ -23,13 +23,18 @@ img.src = 'HTML-Color-Code-300x255.gif';
 var isConnected = false;
 let blink1Device = null;
 
-navigator.hid.addEventListener('disconnect', (event) => {
-    if( event.device !== blink1Device ) return;
-    console.log("blink1 removed");
-    isConnected = false;
-    blink1Device = null;
-    status.innerHTML = "not connected (blink(1) removed)";
-});
+if( navigator.hid ) {
+    navigator.hid.addEventListener('disconnect', (event) => {
+        if( event.device !== blink1Device ) return;
+        console.log("blink1 removed");
+        isConnected = false;
+        blink1Device = null;
+        status.innerHTML = "not connected (blink(1) removed)";
+    });
+} else {
+    status.innerHTML = "WebHID not supported in this browser, try Chrome";
+    document.getElementById('connect-button').disabled = true;
+}
 
 let blink1Version = '';
 let blink1ChipId = '';

@@ -4,6 +4,12 @@
 document.getElementById('start-button').addEventListener('click', handleClick);
 document.getElementById('stop-button').addEventListener('click', handleClickStop);
 
+if( !navigator.hid ) {
+    document.getElementById('status').innerHTML = "WebHID not supported in this browser, try Chrome";
+    document.getElementById('start-button').disabled = true;
+    document.getElementById('stop-button').disabled = true;
+}
+
 let timer;
 
 async function handleClickStop() {

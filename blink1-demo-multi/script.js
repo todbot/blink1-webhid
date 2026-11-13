@@ -20,13 +20,17 @@ let allSwatches = document.getElementById('all-swatches');
 
 document.getElementById('add-button').addEventListener('click', handleAdd);
 allSwatches.appendChild(makeSwatches(null, handleAllColor));
-// 'connect' only fires for devices already granted via 'Add blink(1)'
-navigator.hid.addEventListener('connect', refresh);
-navigator.hid.addEventListener('disconnect', refresh);
-
 let blink1s = [];  // { device, version, chipId, color }
 
-refresh();
+if( navigator.hid ) {
+    // 'connect' only fires for devices already granted via 'Add blink(1)'
+    navigator.hid.addEventListener('connect', refresh);
+    navigator.hid.addEventListener('disconnect', refresh);
+    refresh();
+} else {
+    status.innerHTML = "WebHID not supported in this browser, try Chrome";
+    document.getElementById('add-button').disabled = true;
+}
 
 function hexToRgb(hex) {
     const n = parseInt(hex.slice(1), 16);

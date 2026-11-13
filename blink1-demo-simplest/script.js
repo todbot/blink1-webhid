@@ -4,6 +4,12 @@
 document.getElementById('start-button').addEventListener('click', handleConnectClick);
 document.getElementById('stop-button').addEventListener('click', handleDisconnectClick);
 
+if( !navigator.hid ) {
+    document.getElementById('status').innerHTML = "WebHID not supported in this browser, try Chrome";
+    document.getElementById('start-button').disabled = true;
+    document.getElementById('stop-button').disabled = true;
+}
+
 async function handleConnectClick() {
     let acolor = [ 255, 0, 255 ];  // purple
     let device = await openDevice();
