@@ -46,18 +46,21 @@ async function handleConnect() {
         return;
     }
     let blink1Version;
-    let blink1ChipId;
+    let blink1ChipId = "n/a";
     try {
         blink1Version = await blink1_getVersion(device);
     }
     catch {
         blink1Version = "unknown";
     }
-    try {
-        blink1ChipId = await blink1_getChipId(device);
-    }
-    catch {
-        blink1ChipId = "unknown";
+    // chipId only on mk3 (fw 300+), older devices reject reportId 2
+    if( blink1Version >= 300 ) {
+        try {
+            blink1ChipId = await blink1_getChipId(device);
+        }
+        catch {
+            blink1ChipId = "unknown";
+        }
     }
     await blink1_fadeToColor(device, [100,100,100], 100, 0 );
     blink1Device = device;

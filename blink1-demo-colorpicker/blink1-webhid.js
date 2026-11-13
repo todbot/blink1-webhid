@@ -62,7 +62,7 @@ export async function blink1_getChipId(device) {
                 chipid_resp.buffer,
                );
     // from index 2..6, but chipId is actually 64-bit
-    let blink1ChipId = chipid_resp.getUint32(2); 
+    let blink1ChipId = chipid_resp.getUint32(2);
     return blink1ChipId;
 }
 
