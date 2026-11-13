@@ -82,3 +82,44 @@ export async function blink1_fadeToColor(device, [r, g, b], fadeMillis, ledn ) {
         console.error('fadeToColor: failed:', error);
     }
 }
+
+// pattern commands below are mk2+ only
+
+export async function blink1_writePatternLine(device, [r, g, b], fadeMillis, pos) {
+    const dms = Math.round(fadeMillis/10);
+    const data = Uint8Array.from([0x50, r, g, b, dms >> 8, dms & 0xff, pos, 0x00]); // 'P'
+    await device.sendFeatureReport(1, data);
+}
+
+export async function blink1_readPatternLine(device, pos) {
+    const data = Uint8Array.from([0x52, 0,0,0, 0,0, pos, 0x00]); // 'R'
+    await device.sendFeatureReport(1, data);
+    const resp = await device.receiveFeatureReport(1);
+    return {
+        rgb: [resp.getUint8(2), resp.getUint8(3), resp.getUint8(4)],
+        fadeMillis: ((resp.getUint8(5) << 8) + resp.getUint8(6)) * 10,
+        ledn: resp.getUint8(7),
+    };
+}
+
+// sets ledn for the next writePatternLine, needs fw 204+
+export async function blink1_setLedN(device, ledn) {
+    const data = Uint8Array.from([0x6c, ledn, 0,0, 0,0,0,0]); // 'l'
+    await device.sendFeatureReport(1, data);
+}
+
+// endpos is exclusive, count 0 = loop forever
+export async function blink1_playLoop(device, play, startpos, endpos, count) {
+    const data = Uint8Array.from([0x70, play, startpos, endpos, count, 0,0,0]); // 'p'
+    await device.sendFeatureReport(1, data);
+}
+
+export async function blink1_savePattern(device) {
+    const data = Uint8Array.from([0x57, 0xBE, 0xEF, 0xCA, 0xFE, 0,0,0]); // 'W' + magic
+    try {
+        await device.sendFeatureReport(1, data);
+    } catch (error) {
+        // flash write stalls USB so this usually errors even on success
+        console.log('savePattern: (expected) error:', error);
+    }
+}

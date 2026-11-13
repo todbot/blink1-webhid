@@ -13,6 +13,7 @@ List of examples:
 * [blink1-demo-simplest](./blink1-demo-simplest/) -- bare-bones example of lighting a blink(1)
 * [blink1-demo-party](./blink1-demo-party/) -- slightly more complex example
 * [blink1-demo-colorpicker](./blink1-demo-colorpicker/) -- color picker with fast updates to blink(1)
+* [blink1-demo-multi](./blink1-demo-multi/) -- control several blink(1)s at once
 
 
 Pre-requisites for these examples, you will need:
