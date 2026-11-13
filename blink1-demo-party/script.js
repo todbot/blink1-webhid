@@ -55,8 +55,9 @@ async function openDevice() {
 async function fadeToColor(device, [r, g, b], fadeMillis, ledn ) {
     const reportId = 1;
 
-    const dmsh = (fadeMillis/10) >> 8;
-    const dmsl = (fadeMillis/10) % 0xff;
+    const dms = Math.round(fadeMillis/10);
+    const dmsh = dms >> 8;
+    const dmsl = dms & 0xff;
     console.log(`fadeToColor: ${r},${g},${b} ledn:${ledn} dmsh:${dmsh} dmsl:${dmsl}`);
 
     // NOTE: do not put reportId in data array (at least on MacOS),
