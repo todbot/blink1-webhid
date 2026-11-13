@@ -9,9 +9,6 @@ export async function blink1_openDevice() {
     let device = devices.find(d => d.vendorId === vendorId && d.productId === productId);
 
     if (!device) {
-        device = await navigator.hid.requestDevice({
-            filters: [{ vendorId, productId }],
-        });
         // this returns an array now
         let devices = await navigator.hid.requestDevice({
             filters: [{ vendorId, productId }],
@@ -72,8 +69,9 @@ export async function blink1_getChipId(device) {
 export async function blink1_fadeToColor(device, [r, g, b], fadeMillis, ledn ) {
     const reportId = 1;
 
-    const dmsh = (fadeMillis/10) >> 8;
-    const dmsl = (fadeMillis/10) % 0xff;
+    const dms = Math.round(fadeMillis/10);
+    const dmsh = dms >> 8;
+    const dmsl = dms & 0xff;
 
     // NOTE: do not put reportId in data array (at least on MacOS),
     //  and array must be exactly REPORT_COUNT big (8 bytes in this case)
