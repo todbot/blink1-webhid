@@ -27,6 +27,11 @@ export async function blink1_openDevice() {
     return device;
 }
 
+export async function blink1_closeDevice(device) {
+    if(!device) { return; }
+    await device.close();
+}
+
 export async function blink1_getVersion(device) {
     const reportId = 1;
     const data = Uint8Array.from([0x76, 0,0,0,  0,0,0,0]); // 'v'
