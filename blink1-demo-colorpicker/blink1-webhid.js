@@ -12,6 +12,13 @@ export async function blink1_openDevice() {
         device = await navigator.hid.requestDevice({
             filters: [{ vendorId, productId }],
         });
+        // this returns an array now
+        let devices = await navigator.hid.requestDevice({
+            filters: [{ vendorId, productId }],
+        });
+        console.log("devices:",devices);
+        device = devices[0];
+        if( !device ) return null; 
     }
 
     if (!device.opened) {
@@ -52,7 +59,8 @@ export async function blink1_getChipId(device) {
     console.log("blink1 chipid response:", chipid_resp,
                 chipid_resp.buffer,
                );
-    let blink1ChipId = chipid_resp.getUint32(2); // from index 2..6
+    // from index 2..6, but chipId is actually 64-bit
+    let blink1ChipId = chipid_resp.getUint32(2); 
     return blink1ChipId;
 }
 
