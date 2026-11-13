@@ -21,6 +21,15 @@ let img = new Image();
 img.src = 'HTML-Color-Code-300x255.gif';
 
 var isConnected = false;
+let blink1Device = null;
+
+navigator.hid.addEventListener('disconnect', (event) => {
+    if( event.device !== blink1Device ) return;
+    console.log("blink1 removed");
+    isConnected = false;
+    blink1Device = null;
+    status.innerHTML = "not connected (blink(1) removed)";
+});
 
 let blink1Version = '';
 let blink1ChipId = '';
@@ -51,6 +60,7 @@ async function handleConnect() {
         blink1ChipId = "unknown";
     }
     await blink1_fadeToColor(device, [100,100,100], 100, 0 );
+    blink1Device = device;
     isConnected = true;
     status.innerHTML = "connected.  firmware version: "+ blink1Version + " chipId:"+blink1ChipId;
 }
@@ -82,9 +92,8 @@ async function handleClick(event) {
     console.log("hex:",hexstr);
 
     if( isConnected ) {
-        const device = await blink1_openDevice();
-        await blink1_fadeToColor(device, [r,g,b], 100, 0 );
-    }    
+        await blink1_fadeToColor(blink1Device, [r,g,b], 100, 0 );
+    }
 }
 
 
